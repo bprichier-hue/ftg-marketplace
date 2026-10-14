@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frontier Static Webpage</title>
+  <title>FTG Marketplace</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -398,6 +398,64 @@
       font-size: 0.92rem;
     }
 
+    .app-card {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(360px, 1.15fr);
+      gap: 20px;
+      overflow: hidden;
+      padding: 26px;
+      background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      box-shadow: var(--cp-shadow);
+    }
+
+    .app-intro p {
+      color: var(--cp-text-muted);
+    }
+
+    .app-meta {
+      display: grid;
+      gap: 10px;
+      margin: 22px 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .app-meta li {
+      display: flex;
+      gap: 10px;
+      color: var(--cp-text-muted);
+    }
+
+    .app-meta li::before {
+      content: "-";
+      color: var(--cp-accent);
+      font-weight: 900;
+    }
+
+    .app-frame {
+      overflow: hidden;
+      min-height: 620px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 18px;
+    }
+
+    .app-frame iframe {
+      display: block;
+      width: 100%;
+      height: 620px;
+      border: 0;
+      background: var(--cp-surface);
+    }
+
+    .app-fallback {
+      margin-top: 12px;
+      color: var(--cp-text-soft);
+      font-size: 0.9rem;
+    }
+
     .section {
       margin-top: 72px;
     }
@@ -558,6 +616,7 @@
 
     @media (max-width: 920px) {
       .hero,
+      .app-card,
       .publish-card {
         grid-template-columns: 1fr;
       }
@@ -568,6 +627,12 @@
 
       .browser-frame {
         min-height: 420px;
+      }
+
+      .app-frame,
+      .app-frame iframe {
+        min-height: 560px;
+        height: 560px;
       }
 
       .cards,
@@ -618,6 +683,7 @@
         <span>Frontier Web</span>
       </a>
       <div class="nav-links">
+        <a href="#app">App</a>
         <a href="#features">Design</a>
         <a href="#publish">Publish</a>
         <a href="#launch">Launch</a>
@@ -683,6 +749,36 @@
       <div class="stat">
         <strong>100%</strong>
         <span>Static and portable</span>
+      </div>
+    </section>
+
+    <section class="section" id="app">
+      <div class="section-header">
+        <h2>FTG Marketplace app.</h2>
+        <p>The static page now points users into the protected Managed Apps experience.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-intro">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>Protected Microsoft app</div>
+          <h3>Open the live marketplace experience.</h3>
+          <p>This panel embeds the Managed Apps preview when the service allows framing. If the app blocks embedding or requires sign-in, use the direct launch button.</p>
+          <ul class="app-meta">
+            <li>Audience: internal users with access to the Managed Apps preview.</li>
+            <li>Hosting: static shell with the live app loaded from Microsoft cloud.</li>
+            <li>Fallback: direct authenticated link opens in a new browser tab.</li>
+          </ul>
+          <a class="button primary" href="https://play.preview.managedapps.cloud.microsoft/apps/39051425-075d-44e5-9d82-70b7f5afb49b" target="_blank" rel="noopener noreferrer">Open FTG Marketplace</a>
+          <p class="app-fallback">If the embedded area is blank, sign in or open the app directly. Frame blocking is not a bug; it is the security system doing push-ups.</p>
+        </div>
+        <div class="app-frame" aria-label="Embedded FTG Marketplace app">
+          <iframe
+            title="FTG Marketplace Managed App"
+            src="https://play.preview.managedapps.cloud.microsoft/apps/39051425-075d-44e5-9d82-70b7f5afb49b"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="clipboard-read; clipboard-write; fullscreen">
+          </iframe>
+        </div>
       </div>
     </section>
 
