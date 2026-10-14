@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontier Static Webpage</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at top left, var(--cp-highlight), transparent 34rem),
+        radial-gradient(circle at bottom right, var(--cp-accent-soft), transparent 28rem),
+        var(--cp-bg);
+    }
+
+    a {
+      color: var(--cp-link);
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 72px;
+      padding: 12px 14px;
+      background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-overlay), 0 1px 2px var(--cp-overlay);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cp-text);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 0.625rem;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 8px 10px;
+      border-radius: 0.625rem;
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-copy {
+      padding: 32px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding: 6px 12px;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      background: var(--cp-panel);
+      color: var(--cp-accent);
+      font-size: 0.875rem;
+      font-weight: 800;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--cp-success);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: clamp(3rem, 7vw, 6.4rem);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+    }
+
+    .lead {
+      max-width: 700px;
+      margin-bottom: 30px;
+      color: var(--cp-text-muted);
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .button.primary {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+    }
+
+    .button:hover {
+      border-color: var(--cp-border-strong);
+    }
+
+    .button.primary:hover {
+      background: var(--cp-accent-hover);
+    }
+
+    .hero-visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      padding: 22px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      box-shadow: var(--cp-shadow);
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--cp-highlight), transparent 42%), var(--cp-sheen);
+      pointer-events: none;
+    }
+
+    .browser-frame {
+      position: relative;
+      display: grid;
+      min-height: 476px;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 18px;
+    }
+
+    .browser-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px;
+      border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--cp-border-strong);
+    }
+
+    .browser-url {
+      flex: 1;
+      margin-left: 8px;
+      padding: 6px 10px;
+      overflow: hidden;
+      border: 1px solid var(--cp-border);
+      border-radius: 999px;
+      color: var(--cp-text-soft);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .mock-site {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      padding: 24px;
+    }
+
+    .mock-hero {
+      min-height: 150px;
+      padding: 20px;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      background: var(--cp-surface);
+    }
+
+    .mock-line {
+      height: 12px;
+      border-radius: 999px;
+      background: var(--cp-border);
+    }
+
+    .mock-line.title {
+      width: 72%;
+      height: 22px;
+      margin-bottom: 12px;
+      background: var(--cp-accent);
+    }
+
+    .mock-line.medium {
+      width: 58%;
+      margin-bottom: 10px;
+    }
+
+    .mock-line.short {
+      width: 38%;
+    }
+
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mock-card {
+      min-height: 96px;
+      padding: 14px;
+      border: 1px solid var(--cp-border);
+      border-radius: 14px;
+      background: var(--cp-surface);
+    }
+
+    .mock-pill {
+      display: inline-block;
+      width: 46px;
+      height: 22px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: var(--cp-accent-soft);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .stat {
+      padding: 18px;
+      background: var(--cp-panel);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.8rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .stat span {
+      color: var(--cp-text-muted);
+      font-size: 0.92rem;
+    }
+
+    .section {
+      margin-top: 72px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      max-width: 700px;
+      margin-bottom: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .section-header p {
+      max-width: 420px;
+      margin-bottom: 0;
+      color: var(--cp-text-muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card,
+    .publish-card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-overlay), 0 1px 2px var(--cp-overlay);
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 20px;
+      place-items: center;
+      border-radius: 0.625rem;
+      background: var(--cp-accent-soft);
+      color: var(--cp-accent);
+      font-weight: 900;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--cp-text-muted);
+    }
+
+    .publish-card {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+      gap: 20px;
+      overflow: hidden;
+      padding: 26px;
+      background: var(--cp-panel-strong);
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 14px;
+      color: var(--cp-text-muted);
+    }
+
+    .steps li::before {
+      content: counter(steps);
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 900;
+    }
+
+    code {
+      padding: 2px 6px;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.9em;
+    }
+
+    .cta {
+      margin-top: 72px;
+      padding: 34px;
+      background: var(--cp-accent);
+      border-radius: 24px;
+      color: var(--cp-accent-fg);
+    }
+
+    .cta h2 {
+      max-width: 780px;
+      margin-bottom: 10px;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .cta p {
+      max-width: 640px;
+      margin-bottom: 22px;
+    }
+
+    .cta .button {
+      border-color: var(--cp-accent-fg);
+      background: var(--cp-accent-fg);
+      color: var(--cp-accent);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 34px;
+      padding-top: 22px;
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-soft);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero,
+      .publish-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .browser-frame {
+        min-height: 420px;
+      }
+
+      .cards,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header,
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 1180px);
+        padding-top: 16px;
+      }
+
+      .nav {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 42px;
+      }
+
+      .hero-copy {
+        padding: 0;
+      }
+
+      .hero-visual,
+      .cta {
+        border-radius: 18px;
+      }
+
+      .mock-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Frontier home">
+        <span class="brand-mark">F</span>
+        <span>Frontier Web</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Design</a>
+        <a href="#publish">Publish</a>
+        <a href="#launch">Launch</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>Static site, designed for launch</div>
+        <h1>Build a sharp webpage without waking the infrastructure team.</h1>
+        <p class="lead">A polished, responsive one-page site you can host with GitHub Pages, SharePoint, or Azure Static Web Apps once the permissions stop behaving like a locked airlock.</p>
+        <div class="actions">
+          <a class="button primary" href="#publish">See publish steps</a>
+          <a class="button" href="#features">Explore the design</a>
+        </div>
+      </div>
+
+      <aside class="hero-visual" aria-label="Website preview illustration">
+        <div class="browser-frame">
+          <div class="browser-top">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-url">https://your-site.example</span>
+          </div>
+          <div class="mock-site">
+            <div class="mock-hero">
+              <div class="mock-line title"></div>
+              <div class="mock-line medium"></div>
+              <div class="mock-line short"></div>
+            </div>
+            <div class="mock-grid">
+              <div class="mock-card">
+                <span class="mock-pill"></span>
+                <div class="mock-line medium"></div>
+                <div class="mock-line short"></div>
+              </div>
+              <div class="mock-card">
+                <span class="mock-pill"></span>
+                <div class="mock-line medium"></div>
+                <div class="mock-line short"></div>
+              </div>
+            </div>
+            <div class="mock-card">
+              <span class="mock-pill"></span>
+              <div class="mock-line medium"></div>
+              <div class="mock-line short"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="stats" aria-label="Site highlights">
+      <div class="stat">
+        <strong>1</strong>
+        <span>HTML file to publish</span>
+      </div>
+      <div class="stat">
+        <strong>0</strong>
+        <span>Servers to maintain</span>
+      </div>
+      <div class="stat">
+        <strong>100%</strong>
+        <span>Static and portable</span>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-header">
+        <h2>Designed to feel finished, not temporary.</h2>
+        <p>Use this as a landing page, microsite, concept page, or internal artifact. Replace the words, keep the structure.</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <div class="icon">01</div>
+          <h3>Editorial hero</h3>
+          <p>Large type, crisp positioning, and a clear call to action make the page feel deliberate from the first screen.</p>
+        </article>
+        <article class="card">
+          <div class="icon">02</div>
+          <h3>Responsive layout</h3>
+          <p>The layout adapts cleanly across desktop, tablet, and phone screens with no build tools required.</p>
+        </article>
+        <article class="card">
+          <div class="icon">03</div>
+          <h3>Microsoft-safe path</h3>
+          <p>Host publicly only when approved, or keep it inside SharePoint and Microsoft 365 permissions for safer access.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="publish">
+      <div class="section-header">
+        <h2>Publish when ready.</h2>
+        <p>The page is static, so deployment stays simple. Apparently this is frowned upon by people who sell complexity.</p>
+      </div>
+      <div class="publish-card">
+        <div>
+          <h3>Recommended next path</h3>
+          <p>For internal Microsoft assets, use SharePoint or a secured Microsoft 365 location. For public launch, use GitHub Pages or Azure Static Web Apps after approvals and access are sorted.</p>
+          <a class="button primary" href="#launch">Prep for launch</a>
+        </div>
+        <ol class="steps">
+          <li><span>Edit the page title, hero message, and section copy.</span></li>
+          <li><span>Put the file in a repo or approved Microsoft 365 location.</span></li>
+          <li><span>Publish as <code>index.html</code> using your chosen host.</span></li>
+          <li><span>Validate access before sending the link to humans. They tend to click things.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="cta" id="launch">
+      <h2>Ready for content.</h2>
+      <p>This design shell is ready for your actual message, audience, and hosting choice. Swap in your copy and assets, then publish it where the permissions match the sensitivity.</p>
+      <a class="button" href="#top">Back to top</a>
+    </section>
+
+    <footer class="footer">
+      <span>Frontier Web starter</span>
+      <span>Static, responsive, and mercifully low-maintenance.</span>
+    </footer>
+  </main>
+</body>
+</html>
